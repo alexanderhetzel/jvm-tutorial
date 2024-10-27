@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { View, Text, ScrollView, Image } from 'react-native';
-import { Redirect, SplashScreen, router } from 'expo-router'; // Verwende `router` statt `Redirect`
+import { Redirect, SplashScreen, router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useGlobalContext } from '../context/GlobalProvider'; 
-import CustomButton from '../components/customButton';
 import { images } from '../constants';
+import {CustomButton} from "../components"
+
 
 export default function Index() {
   const { isLoading, isLoggedIn } = useGlobalContext();
@@ -23,7 +24,7 @@ export default function Index() {
 
   // Die Willkommensseite wird nur angezeigt, wenn der Benutzer nicht eingeloggt ist
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView className= "bg-primary h-full">
       <ScrollView contentContainerStyle={{ height: '100%' }}>
         <View className="w-full justify-center items-center h-full px-4">
           <Image source={images.logo} className="w-[130px] h-[84px]" resizeMode="contain" />

@@ -1,13 +1,11 @@
 import {View, Text, FlatList} from 'react-native'
 import React, {useEffect} from 'react'
 import {useLocalSearchParams} from "expo-router";
-import {SafeAreaView} from "react-native-safe-area-context";
-import VideoCard from "../../components/videoCard";
-import SearchInput from "../../components/searchInput";
-import EmptyState from "../../components/emptyState";
 import {StatusBar} from "expo-status-bar";
 import useAppwrite from "../../lib/useAppwrite";
 import {searchPosts} from "../../lib/appwrite";
+import {VideoCard, EmptyState, SearchInput, CustomSafeAreaView} from '../../components'
+
 
 const Search = () => {
     const {query} = useLocalSearchParams();
@@ -18,12 +16,18 @@ const Search = () => {
     }, [query]);
 
     return (
-        <SafeAreaView className="bg-primary h-full">
+        <CustomSafeAreaView className="bg-primary h-full">
             <FlatList
                 keyExtractor={(item) => item.$id}
                 data={posts}
                 renderItem={({item}) => (
-                    <VideoCard video={item}/>
+                    <VideoCard
+                        title={item.title}
+                        thumbnail={item.thumbnail}
+                        video={item.video}
+                        creator={item.creator.username}
+                        avatar={item.creator.avatar}
+                    />
                 )}
                 ListHeaderComponent={() => (
                     <View className="my-6 px-4">
@@ -39,7 +43,7 @@ const Search = () => {
                 )}
             />
             <StatusBar backgroundColor='#161622' style='light'/>
-        </SafeAreaView>
+        </CustomSafeAreaView>
     )
 }
 

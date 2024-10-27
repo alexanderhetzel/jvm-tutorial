@@ -1,12 +1,12 @@
 import { View, Text, ScrollView, Image, Alert } from 'react-native'
 import React, {useState} from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import {images} from '../../constants'
-import FormField from '../../components/formField'
-import CustomButtom from '../../components/customButton'
 import { Link } from 'expo-router'
-import { createUser } from '../../lib/appwrite'
+import {createUser} from '../../lib/appwrite'
 import { router } from 'expo-router'
+import {useGlobalContext} from "../../context/GlobalProvider";
+import {CustomSafeAreaView, CustomButton, FormField} from '../../components'
+
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -15,6 +15,7 @@ const SignUp = () => {
     username:''
   })
 
+  const { setUser, setIsLoggedIn } = useGlobalContext();
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const submit = async() => {
@@ -26,6 +27,9 @@ const SignUp = () => {
     try {
       const result = await createUser(form.email, form.password, form.username);
 
+      setUser(result);
+      setIsLoggedIn(true);
+
       router.replace('/home');
     } catch (error) {
       Alert.alert('Error', error.message);
@@ -35,7 +39,7 @@ const SignUp = () => {
   }
 
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <CustomSafeAreaView className="bg-primary h-full">
       <ScrollView >
         <View className="w-full min-h-[85vh] justify-center px-4 my-6">
           <Image source={images.logo} resizeMode="contain" className="w-[115px] h-[35px]"/>
@@ -59,14 +63,14 @@ const SignUp = () => {
             handleChangeText={(e) => setForm({...form, password: e})}
             otherStyles="mt-7"
           />
-          <CustomButtom title="Sign Up" handlePress={submit} containerStyles="mt-7" isLoading={isSubmitting}/>
+          <CustomButton title="Sign Up" handlePress={submit} containerStyles="mt-7" isLoading={isSubmitting}/>
           <View className="flex-row justify-center gap-1 mt-5">
             <Text className="font-pregular text-sm text-white">Have an account already?</Text>
             <Link className="text-secondary-100 text-sm font-psemibold" href="/sign-in">Sign In</Link>
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </CustomSafeAreaView>
   )
 }
 

@@ -1,14 +1,13 @@
 import {View, Text, FlatList, TouchableOpacity, Image} from 'react-native'
 import React from 'react'
 import {router} from "expo-router";
-import {SafeAreaView} from "react-native-safe-area-context";
-import VideoCard from "../../components/videoCard";
-import EmptyState from "../../components/emptyState";
 import {StatusBar} from "expo-status-bar";
 import useAppwrite from "../../lib/useAppwrite";
 import {getUsersPosts, signOut} from "../../lib/appwrite";
 import {useGlobalContext} from "../../context/GlobalProvider";
 import {icons} from "../../constants";
+import {CustomSafeAreaView, VideoCard, EmptyState} from '../../components'
+
 
 const Profile = () => {
     const {user, setUser, setIsLoggedIn} = useGlobalContext();
@@ -19,18 +18,29 @@ const Profile = () => {
         setUser(null);
         setIsLoggedIn(false);
 
-        router.push("/sign-in");
+        router.replace("/sign-in");
     }
 
     return (
-        <SafeAreaView className="bg-primary h-full">
+        <CustomSafeAreaView className="bg-primary h-full">
+            <TouchableOpacity className={"px-3 mr-3 py-3 self-end"} onPress={() => logOut()}>
+                <Image className={"w-6 h-6"} source={icons.logout} resizeMode={"contain"}/>
+            </TouchableOpacity>
             <FlatList
                 keyExtractor={(item) => item.$id}
                 data={posts}
+                ItemSeparatorComponent={() => <View className={"h-14"}/>}
                 renderItem={({item}) => (
-                    <VideoCard video={item}/>
+                    <VideoCard
+                        title={item.title}
+                        thumbnail={item.thumbnail}
+                        video={item.video}
+                        creator={item.creator.username}
+                        avatar={item.creator.avatar}
+                    />
                 )}
                 ListHeaderComponent={() => (
+
                     <View className="my-6 space-y-2 px-4 items-center justify-center">
                         <View className={"w-[56px] h-[56px] rounded-lg border border-secondary p-0.5"}>
                             <Image source={{uri: user?.avatar}} className={"w-full h-full rounded-md"} resizeMode={"cover"}/>
@@ -46,8 +56,6 @@ const Profile = () => {
                                 <Text className="text-[14px] font-pregular text-white">Posts</Text>
                             </View>
                         </View>
-
-
                     </View>
                 )}
                 ListEmptyComponent={() => (
@@ -55,10 +63,7 @@ const Profile = () => {
                 )}
             />
             <StatusBar backgroundColor='#161622' style='light'/>
-            <TouchableOpacity className={"px-3 mr-3 py-3 absolute right-0 top-12"} onPress={() => logOut()}>
-                <Image className={"w-6 h-6"} source={icons.logout} resizeMode={"contain"}/>
-            </TouchableOpacity>
-        </SafeAreaView>
+        </CustomSafeAreaView>
     )
 }
 
