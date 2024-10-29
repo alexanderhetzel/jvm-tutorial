@@ -4,8 +4,9 @@ import {getAllPosts, getLatestPosts, signOut} from '../../lib/appwrite'
 import { StatusBar } from 'expo-status-bar'
 import { useGlobalContext } from '../../context/GlobalProvider'
 import useAppwrite from "../../lib/useAppwrite";
-import {images} from "../../constants";
+import {icons, images} from "../../constants";
 import {CustomSafeAreaView, VideoCard, EmptyState, SearchInput, Trending} from '../../components'
+import FeedFooter from "../../components/FeedFooter";
 
 
 const Home = () => {
@@ -35,6 +36,9 @@ const Home = () => {
                         creator={item.creator.username}
                         avatar={item.creator.avatar}
                     />
+                )}
+                ListFooterComponent={() => (
+                    <FeedFooter/>
                 )}
                 ListHeaderComponent={() => (
                     <View className="my-6 space-y-6">

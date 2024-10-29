@@ -4,7 +4,7 @@ import { Redirect, SplashScreen, router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useGlobalContext } from '../context/GlobalProvider'; 
 import { images } from '../constants';
-import {CustomButton} from "../components"
+import {CustomButton, CustomSafeAreaView} from "../components"
 
 
 export default function Index() {
@@ -24,7 +24,7 @@ export default function Index() {
 
   // Die Willkommensseite wird nur angezeigt, wenn der Benutzer nicht eingeloggt ist
   return (
-    <SafeAreaView className= "bg-primary h-full">
+    <CustomSafeAreaView className= "bg-primary h-full">
       <ScrollView contentContainerStyle={{ height: '100%' }}>
         <View className="w-full justify-center items-center h-full px-4">
           <Image source={images.logo} className="w-[130px] h-[84px]" resizeMode="contain" />
@@ -34,7 +34,6 @@ export default function Index() {
               Discover Endless Possibilities with
               <Text className="text-secondary-200"> Aora</Text>
             </Text>
-            <Image source={images.path} className="w-[80px] h-[15px] absolute -bottom-3 -right-2" resizeMode="contain" />
           </View>
           <Text className="text-sm font-pregular text-gray-100 mt-7 text-center">
             Where creativity meets innovation: Embark on a journey of limitless exploration with Aora
@@ -46,6 +45,6 @@ export default function Index() {
           />
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </CustomSafeAreaView>
   );
 }

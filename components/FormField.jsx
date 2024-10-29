@@ -7,13 +7,13 @@ const FormField = ({title, value, placeholder, handleChangeText, otherStyles, ..
 
     return (
     <View className={`space-y-2 ${otherStyles}`}>
-        <Text className="text-base text-gray-100 font-pmedium">{title}</Text>
+        <Text className="text-base text-gray-100 font-pmedium mb-2 pl-3">{title}</Text>
         <View className="flex-row w-full h-16 px-4 bg-black-100 rounded-2xl border-[1px] border-borderblue focus:border-secondary-100 items-center">
         <TextInput 
-            className="flex-1 h-full text-white font-psemibold text-base" 
+            className="flex-1 h-full text-white font-pmedium text-base"
             value={value} 
             placeholder={placeholder}
-            placeHolderTextColor="#7b7b8b"
+            placeholderTextColor={"#7b7b8b"}
             onChangeText={handleChangeText}
             secureTextEntry ={title === "Password" && !showPassword}
         />
