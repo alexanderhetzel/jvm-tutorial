@@ -8,12 +8,12 @@ import {VideoCard, EmptyState, SearchInput, CustomSafeAreaView} from '../../comp
 
 
 const Search = () => {
-    const {query} = useLocalSearchParams();
-    const {data: posts, refetch} = useAppwrite(() => searchPosts(query));
 
-    useEffect(() => {
-        refetch()
-    }, [query]);
+    //Cutting search query parameters out of path
+    const {query} = useLocalSearchParams();
+
+    //Data for search posts
+    const {data: posts} = useAppwrite(() => searchPosts(query));
 
     return (
         <CustomSafeAreaView className="bg-primary h-full">

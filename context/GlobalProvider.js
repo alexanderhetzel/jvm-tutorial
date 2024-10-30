@@ -6,11 +6,17 @@ const GlobalContext = createContext();
 export const useGlobalContext = () => useContext(GlobalContext);
 
 const GlobalProvider = ({ children }) => {
+
+    //Global State for managing logged-in state
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    //Global State for managing user-state
     const [user, setUser] = useState(null);
+
+    //Global State for managing loading state
     const [isLoading, setIsLoading] = useState(true); // Steuert das Laden der App (Auth + Fonts)
 
-    // Laden der Schriftarten
+    //Loading fonts
     const [fontsLoaded] = useFonts({
         "Poppins-Black": require("../assets/fonts/Poppins-Black.ttf"),
         "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
@@ -23,8 +29,9 @@ const GlobalProvider = ({ children }) => {
         "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
     });
 
-    useEffect(() => {
-        const checkUserAndFonts = async () => {
+    //Checking if user is logged in and fonts have loaded
+    useEffect( () => {
+        const checkUserAndFonts =  async () => {
             try {
                 // Authentifizierungsstatus abfragen
                 const res = await getCurrentUser();
@@ -35,6 +42,7 @@ const GlobalProvider = ({ children }) => {
                     setIsLoggedIn(false);
                     setUser(null);
                 }
+
             } catch (error) {
                 console.log('Error fetching user:', error);
             } finally {
@@ -44,8 +52,6 @@ const GlobalProvider = ({ children }) => {
                     setIsLoading(false);
                 }
             }
-
-
         };
 
         checkUserAndFonts();

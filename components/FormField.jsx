@@ -3,6 +3,8 @@ import React, {useState} from 'react'
 import {icons, images} from '../constants'
 
 const FormField = ({title, value, placeholder, handleChangeText, otherStyles, ...props}) => {
+
+    //State for showing password (only used if form-field title is 'Password')
     const [showPassword, setShowPassword] = useState(false)
 
     return (

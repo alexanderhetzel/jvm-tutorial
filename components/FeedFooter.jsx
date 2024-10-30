@@ -5,8 +5,11 @@ import Animated, {interpolateColor, useAnimatedStyle, useSharedValue, withRepeat
 import {placeholdergray, secondary} from "../constants/colors";
 
 const FeedFooter = () => {
+
+    //State value for color progress
     const colorProgress = useSharedValue(0);
 
+    //Changing color-progress state continuously
     useEffect(() => {
         colorProgress.value = withRepeat(
             withTiming(1, { duration: 2000 }),
@@ -15,6 +18,7 @@ const FeedFooter = () => {
         );
     }, []);
 
+    //Function for continuously changing background-color
     const animatedStyle = useAnimatedStyle(() => {
         return {
             backgroundColor: interpolateColor(

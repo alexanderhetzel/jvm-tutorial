@@ -4,6 +4,7 @@ import {images} from "../constants";
 import CustomButton from "./CustomButton";
 import {router} from "expo-router";
 
+//Showing and empty state components when feed is empty
 const EmptyState = ({title, subtitle}) => {
     return (
         <View className={"justify-center items-center p-4"}>

@@ -9,27 +9,30 @@ import {CustomSafeAreaView, CustomButton, FormField} from '../../components'
 
 
 const SignUp = () => {
+
+  //State object for managing form-state
   const [form, setForm] = useState({
     email: '',
     password:'',
     username:''
   })
 
-  const { setUser, setIsLoggedIn } = useGlobalContext();
+  //State for managing submitting-state
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  //Global states
+  const { setUser, setIsLoggedIn } = useGlobalContext()
+
+  //submit function for authenticating (sign up) against db
   const submit = async() => {
     if(!form.username || !form.email || !form.password){
       Alert.alert('Error', 'Please fill in all fields!');
     }
     setIsSubmitting(true);
-
     try {
       const result = await createUser(form.email, form.password, form.username);
-
       setUser(result);
       setIsLoggedIn(true);
-
       router.replace('/home');
     } catch (error) {
       Alert.alert('Error', error.message);

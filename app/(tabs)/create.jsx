@@ -9,8 +9,14 @@ import {createVideo} from "../../lib/appwrite";
 import {useGlobalContext} from "../../context/GlobalProvider";
 
 const Create = () => {
+
+    //Global States
     const { user } = useGlobalContext();
+
+    //State for managing uploading-state
     const [uploading, setUploading] = useState(false)
+
+    //State object for managing form-state
     const [form, setForm] = useState({
         title: '',
         video: null,
@@ -18,6 +24,7 @@ const Create = () => {
         prompt: ''
     })
 
+    //Function for picking Image/Video of Document Storage and setting form.thumbnail/video
     const openPicker = async (selectType) => {
         const result = await DocumentPicker.getDocumentAsync({
             type: selectType === 'image'
@@ -36,6 +43,7 @@ const Create = () => {
         }
     }
 
+    //Function for uploading video
     const submit = async () => {
         if (!form.prompt || !form.thumbnail || !form.title || !form.video) {
             Alert.alert("Please fill in all the fields")

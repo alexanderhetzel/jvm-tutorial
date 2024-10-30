@@ -3,6 +3,8 @@ import {View, Text, FlatList, TouchableOpacity, ImageBackground, Image} from 're
 import * as Animatable from 'react-native-animatable';
 import {icons} from "../constants";
 import {Video, ResizeMode} from "expo-av";
+
+//Defining state for zooming in (expanding) trending card
 const ZoomIn = {
     0: {
         scale: 0.9
@@ -12,6 +14,7 @@ const ZoomIn = {
     }
 }
 
+//Defining state for zooming out (shrinking) trending card
 const ZoomOut = {
     0: {
         scale: 1
@@ -22,7 +25,10 @@ const ZoomOut = {
 }
 
 const TrendingItem = ({activeItem, item}) => {
+
+    //State for managing play-state
     const [play, setPlay] = useState(false);
+
     return (
         <Animatable.View className={"mr-5"} animation={activeItem === item.$id ? ZoomIn : ZoomOut} duration={500}>
             {play===true ? (
@@ -48,8 +54,11 @@ const TrendingItem = ({activeItem, item}) => {
 }
 
 const Trending = ({ posts }) => {
+
+    //State for managing active (zoomed in) item
     const [activeItem, setActiveItem] = useState(posts[1])
 
+    //Function for setting active item
     const viewableItemsChanged = ({viewableItems}) => {
         console.log(viewableItems + "\n");
         if(viewableItems.length > 0) {

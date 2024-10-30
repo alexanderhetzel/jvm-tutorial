@@ -5,8 +5,12 @@ import {usePathname, router} from "expo-router";
 
 const SearchInput = ({otherStyles, initialQuery}) => {
 
+    //State for declaring path-name
     const pathName = usePathname();
+
+    //Setting search query to inital one if exists, otherwise ''
     const [query, setQuery] = useState(initialQuery || '')
+
     return (
         <View className={`space-y-2 ${otherStyles}`}>
             <View className="flex-row w-full h-16 px-4 bg-black-100 rounded-2xl border-[1px] border-borderblue focus:border-gray-400 items-center space-x-3">

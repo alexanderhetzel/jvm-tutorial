@@ -13,21 +13,29 @@ import {SplashScreen} from "expo-router";
 
 
 const Home = () => {
-    const { user, setUser,isLoggedIn, setIsLoggedIn, isLoading } = useGlobalContext();
 
+    //Global States
+    const { user, isLoggedIn, isLoading } = useGlobalContext();
+
+    //State for managing refreshing
     const [refreshing, setRefreshing] = useState(false);
+
+    //Data for feed posts
     const {data: posts, refetch} = useAppwrite(getAllPosts);
+
+    //Data for trending posts
     const {data: latestposts} = useAppwrite(getLatestPosts);
 
+    //Called when refresh is triggered
     const onRefresh = async () => {
         setRefreshing(true);
         await refetch();
         setRefreshing(false);
     }
 
+    //Hide the splash-screen when user IS logged in and isLoading is false
     useEffect(() => {
         if (isLoggedIn && !isLoading) {
-            console.log(isLoggedIn)
             SplashScreen.hideAsync();
         }
     }, [isLoading]);

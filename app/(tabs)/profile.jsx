@@ -10,15 +10,19 @@ import {CustomSafeAreaView, VideoCard, EmptyState} from '../../components'
 
 
 const Profile = () => {
+
+    //Global States
     const {user, setUser, setIsLoggedIn} = useGlobalContext();
+
+    //Data for user's posts
     const {data: posts} = useAppwrite(() => getUsersPosts(user.$id));
 
+    //Function for deleting session and logging user out
     const logOut = async () => {
         await signOut();
         setUser(null);
         setIsLoggedIn(false);
-
-        router.replace("/sign-in");
+        router.replace("/welcome");
     }
 
     return (
