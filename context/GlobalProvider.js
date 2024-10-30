@@ -37,13 +37,15 @@ const GlobalProvider = ({ children }) => {
                 }
             } catch (error) {
                 console.log('Error fetching user:', error);
+            } finally {
+                // Überprüfe, ob Schriftarten geladen wurden
+                if (fontsLoaded) {
+                    // Beide sind nun fertig (Auth und Fonts)
+                    setIsLoading(false);
+                }
             }
 
-            // Überprüfe, ob Schriftarten geladen wurden
-            if (fontsLoaded) {
-                // Beide sind nun fertig (Auth und Fonts)
-                setIsLoading(false);
-            }
+
         };
 
         checkUserAndFonts();

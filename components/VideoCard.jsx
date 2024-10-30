@@ -4,7 +4,7 @@ import {View, Text, TouchableOpacity, Image} from "react-native";
 import { icons } from "../constants";
 
 const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
-    const [play, setPlay] = useState(false);
+    const [play, setPlay]= useState(false);
 
     return (
         <View className="flex flex-col items-center px-4">
@@ -13,8 +13,9 @@ const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
                     <View className="w-[46px] h-[46px] rounded-lg border border-secondary flex justify-center items-center p-0.5">
                         <Image
                             source={{ uri: avatar }}
-                            className="w-full h-full rounded-md"
+                            className="w-full h-full rounded-md bg-black-200"
                             resizeMode="cover"
+
                         />
                     </View>
 
@@ -39,19 +40,20 @@ const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
                 </View>
             </View>
 
+
             {play ? (
-                    <Video
-                        source={{uri: video}}
-                        className={"w-full h-60 mt-6 rounded-xl bg-white/10"}
-                        resizeMode={ResizeMode.CONTAIN}
-                        useNativeControls
-                        shouldPlay
-                        onPlaybackStatusUpdate={(status) => {
-                            if (status.didJustFinish) {
-                                setPlay(false);
-                            }
-                        }}
-                    />
+                <Video
+                    source={{uri: video}}
+                    className={"w-full h-60 mt-6 rounded-xl bg-white/10"}
+                    resizeMode={ResizeMode.CONTAIN}
+                    useNativeControls
+                    shouldPlay
+                    onPlaybackStatusUpdate={(status) => {
+                        if (status.didJustFinish) {
+                            setPlay(false);
+                        }
+                    }}
+                />
             ) : (
                 <TouchableOpacity
                     activeOpacity={0.7}
@@ -60,7 +62,7 @@ const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
                 >
                     <Image
                         source={{ uri: thumbnail }}
-                        className="w-full h-full rounded-xl"
+                        className="w-full h-full rounded-xl bg-black-200"
                         resizeMode="cover"
                     />
 

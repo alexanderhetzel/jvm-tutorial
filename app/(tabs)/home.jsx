@@ -1,5 +1,5 @@
 import {View, Text, FlatList, Image, RefreshControl} from 'react-native'
-import React, {useState} from 'react'
+import React, {useState, useCallback, useRef, useMemo, useEffect} from 'react'
 import {getAllPosts, getLatestPosts, signOut} from '../../lib/appwrite'
 import { StatusBar } from 'expo-status-bar'
 import { useGlobalContext } from '../../context/GlobalProvider'
@@ -7,20 +7,30 @@ import useAppwrite from "../../lib/useAppwrite";
 import {icons, images} from "../../constants";
 import {CustomSafeAreaView, VideoCard, EmptyState, SearchInput, Trending} from '../../components'
 import FeedFooter from "../../components/FeedFooter";
+import {remapProps} from "nativewind";
+import {placeholdergray} from "../../constants/colors";
+import {SplashScreen} from "expo-router";
 
 
 const Home = () => {
-    const { user, setUser, setIsLoggedIn } = useGlobalContext();
+    const { user, setUser,isLoggedIn, setIsLoggedIn, isLoading } = useGlobalContext();
+
     const [refreshing, setRefreshing] = useState(false);
     const {data: posts, refetch} = useAppwrite(getAllPosts);
     const {data: latestposts} = useAppwrite(getLatestPosts);
-
 
     const onRefresh = async () => {
         setRefreshing(true);
         await refetch();
         setRefreshing(false);
     }
+
+    useEffect(() => {
+        if (isLoggedIn && !isLoading) {
+            console.log(isLoggedIn)
+            SplashScreen.hideAsync();
+        }
+    }, [isLoading]);
 
     return (
         <CustomSafeAreaView className={"bg-primary h-full"}>
@@ -52,7 +62,7 @@ const Home = () => {
                             </View>
                         </View>
                         <SearchInput otherStyles={"px-4"}/>
-                        <View className="w-full flex-1 pt-5 pb-8">
+                        <View onla className="w-full flex-1 pt-5 pb-8">
                             <Text className="px-4 text-gray-100 text-lg font-pregular mb-3">Latest videos</Text>
                             <Trending posts={latestposts}/>
                         </View>
