@@ -1,31 +1,49 @@
-import {View, Text, ScrollView} from 'react-native'
-import React, {useMemo, useRef} from 'react'
-import {CustomButton, CustomSafeAreaView} from "../../components";
-import BottomSheet, {BottomSheetView} from "@gorhom/bottom-sheet";
-import {black, gray, placeholdergray} from "../../constants/colors";
+import {View, Text, ScrollView, useColorScheme} from 'react-native'
+import React, {useMemo, useRef, useCallback} from 'react'
+import {CText, CustomButton, CustomSafeAreaView} from "../../components";
+import BottomSheet, {BottomSheetBackdrop, BottomSheetModal, BottomSheetView} from "@gorhom/bottom-sheet";
+import {black, gray, neutraldark, neutrallight, placeholdergray} from "../../constants/colors";
 
 const Bookmark = () => {
 
     const bottomSheetRef = useRef(null);
 
-    const handleOpenPress = () => bottomSheetRef.current?.expand();
+    const handleOpenPress = () => bottomSheetRef.current?.present();
+
+    const colorScheme = useColorScheme();
+
+    // snappoints of bottomsheet
+    const snapPoints = useMemo(() => ["50%"], []);
+
+    // renders backdrop of bottomsheet
+    const renderBackdrop = useCallback(
+        (props) => (
+            <BottomSheetBackdrop
+                {...props}
+                disappearsOnIndex={0}
+                appearsOnIndex={1}
+            />
+        ),
+        []
+    );
 
     return (
-        <CustomSafeAreaView classname={"h-full bg-primary"}>
+        <CustomSafeAreaView className={"h-full bg-primary"}>
             <ScrollView className={"py-6 px-4"}>
-                <CustomButton title={"Open Bottomsheet"} handlePress={handleOpenPress}/>
-                <Text>Bookmark</Text>
+                <CustomButton title={"Open BottomsheetModal"} handlePress={handleOpenPress}/>
+                <CText>Bookmark</CText>
             </ScrollView>
-            <BottomSheet
+            <BottomSheetModal snapPoints={snapPoints} index={1}
                 ref={bottomSheetRef}
-                backgroundStyle={{backgroundColor: black[100]}}
-                handleIndicatorStyle={{backgroundColor: gray[100]}}
+                backgroundStyle={colorScheme === 'light' ? {backgroundColor: neutrallight["200"]} : {backgroundColor: neutraldark["200"]}}
+                handleIndicatorStyle={colorScheme === 'light' ? {backgroundColor: neutraldark["900"]} : {backgroundColor: neutrallight["900"]}}
+                backdropComponent={renderBackdrop}
                 enablePanDownToClose
             >
                 <BottomSheetView className={"flex flex-col"}>
                     <CustomButton title={"Save to bookmarks"} containerStyles={"mx-3 mt-4 mb-6"} onClick={handleOpenPress}/>
                 </BottomSheetView>
-            </BottomSheet>
+            </BottomSheetModal>
         </CustomSafeAreaView>
     )
 }

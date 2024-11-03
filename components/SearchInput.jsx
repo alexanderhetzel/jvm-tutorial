@@ -2,6 +2,8 @@ import {View, Text, TextInput, TouchableOpacity, Image, Alert} from 'react-nativ
 import React, {useState} from 'react'
 import {icons, images} from '../constants'
 import {usePathname, router} from "expo-router";
+import {neutraldark, neutrallight} from "../constants/colors";
+import {useGlobalContext} from "../context/GlobalProvider";
 
 const SearchInput = ({otherStyles, initialQuery}) => {
 
@@ -11,14 +13,16 @@ const SearchInput = ({otherStyles, initialQuery}) => {
     //Setting search query to inital one if exists, otherwise ''
     const [query, setQuery] = useState(initialQuery || '')
 
+    const { colorScheme } = useGlobalContext()
+
     return (
         <View className={`space-y-2 ${otherStyles}`}>
-            <View className="flex-row w-full h-16 px-4 bg-black-100 rounded-2xl border-[1px] border-borderblue focus:border-gray-400 items-center space-x-3">
+            <View className="bg-neutrallight-400 dark:bg-neutraldark-300 border-neutrallight-600 dark:border-neutraldark-600 flex-row w-full h-16 px-4 rounded-2xl border-[1px] focus:border-gray-400 items-center space-x-3">
                 <TextInput
                     className="flex-1 h-full text-white font-pregular text-base"
                     value={query}
                     placeholder='Search for a video topic...'
-                    placeholderTextColor='#CDCDE0'
+                    placeholderTextColor={colorScheme === 'light' ? neutraldark["900"] : neutrallight["900"]}
                     onChangeText={(e) => setQuery(e)}
                 />
                 <TouchableOpacity onPress={() => {

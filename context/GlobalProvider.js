@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { getCurrentUser } from '../lib/appwrite';
 import { useFonts } from 'expo-font';
+import {useColorScheme} from "react-native";
 
 const GlobalContext = createContext();
 export const useGlobalContext = () => useContext(GlobalContext);
@@ -15,6 +16,9 @@ const GlobalProvider = ({ children }) => {
 
     //Global State for managing loading state
     const [isLoading, setIsLoading] = useState(true); // Steuert das Laden der App (Auth + Fonts)
+
+    //Global state for managing current theme of device (light mode / dark mode)
+    const colorScheme = useColorScheme();
 
     //Loading fonts
     const [fontsLoaded] = useFonts({
@@ -64,7 +68,8 @@ const GlobalProvider = ({ children }) => {
                 setIsLoggedIn,
                 user,
                 setUser,
-                isLoading
+                isLoading,
+                colorScheme
             }}
         >
             {children}

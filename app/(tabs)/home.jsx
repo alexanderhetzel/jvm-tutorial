@@ -1,21 +1,29 @@
 import {View, Text, FlatList, Image, RefreshControl} from 'react-native'
-import React, {useState, useCallback, useRef, useMemo, useEffect} from 'react'
-import {getAllPosts, getLatestPosts, signOut} from '../../lib/appwrite'
+import React, {useState, useEffect} from 'react'
+import {getAllPosts, getLatestPosts} from '../../lib/appwrite'
 import { StatusBar } from 'expo-status-bar'
 import { useGlobalContext } from '../../context/GlobalProvider'
 import useAppwrite from "../../lib/useAppwrite";
-import {icons, images} from "../../constants";
-import {CustomSafeAreaView, VideoCard, EmptyState, SearchInput, Trending} from '../../components'
+import {images} from "../../constants";
+import {
+    CustomSafeAreaView,
+    VideoCard,
+    EmptyState,
+    SearchInput,
+    Trending,
+    CView,
+    CText,
+    CStatusBar
+} from '../../components'
 import FeedFooter from "../../components/FeedFooter";
-import {remapProps} from "nativewind";
-import {placeholdergray} from "../../constants/colors";
 import {SplashScreen} from "expo-router";
-
+import {colorScheme} from "nativewind";
+import {neutraldark, neutrallight} from "../../constants/colors";
 
 const Home = () => {
 
     //Global States
-    const { user, isLoggedIn, isLoading } = useGlobalContext();
+    const { user, isLoggedIn, isLoading, colorScheme } = useGlobalContext();
 
     //State for managing refreshing
     const [refreshing, setRefreshing] = useState(false);
@@ -41,8 +49,9 @@ const Home = () => {
     }, [isLoading]);
 
     return (
-        <CustomSafeAreaView className={"bg-primary h-full"}>
+        <CustomSafeAreaView className={"h-full"}>
             <FlatList
+                showsVerticalScrollIndicator={false}
                 keyExtractor={(item) => item.$id}
                 data={posts}
                 ItemSeparatorComponent={() => <View className={"h-14"}/>}
@@ -62,16 +71,16 @@ const Home = () => {
                     <View className="my-6 space-y-6">
                         <View className="px-4 justify-between items-start flex-row mb-6">
                             <View>
-                                <Text className="font-pmedium text-sm text-gray-100">Welcome Back</Text>
-                                <Text className="text-2xl font-psemibold text-white">{user?.username}</Text>
+                                <CText className="font-pmedium text-sm">Welcome Back</CText>
+                                <CText className="text-2xl font-psemibold">{user?.username}</CText>
                             </View>
                             <View className="mt-1.5">
                                 <Image source={images.logoSmall} className="w-9 h-10" resizeMode={"contain"}/>
                             </View>
                         </View>
                         <SearchInput otherStyles={"px-4"}/>
-                        <View onla className="w-full flex-1 pt-5 pb-8">
-                            <Text className="px-4 text-gray-100 text-lg font-pregular mb-3">Latest videos</Text>
+                        <View className="w-full flex-1 pt-5 pb-8">
+                            <Text className="text-neutraldark-900 dark:text-neutrallight-900 px-4 text-lg font-pregular mb-3">Latest videos</Text>
                             <Trending posts={latestposts}/>
                         </View>
                     </View>
@@ -79,9 +88,9 @@ const Home = () => {
                 ListEmptyComponent={() => (
                     <EmptyState title={"No videos found"} subtitle={"Be the first one to upload a video!"}/>
                 )}
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={'white'} size={'large'} />}
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colorScheme === 'light' ? neutraldark : neutrallight} size={'large'} />}
             />
-            <StatusBar backgroundColor='#161622' style='light'/>
+            <CStatusBar/>
         </CustomSafeAreaView>
     )
 }

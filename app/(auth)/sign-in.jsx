@@ -5,7 +5,7 @@ import {images} from '../../constants'
 import {Link, router, SplashScreen} from 'expo-router'
 import {getCurrentUser, signIn} from '../../lib/appwrite'
 import {useGlobalContext} from "../../context/GlobalProvider";
-import {CustomSafeAreaView, CustomButton, FormField} from '../../components'
+import {CustomSafeAreaView, CustomButton, FormField, CText} from '../../components'
 
 const SignIn = () => {
 
@@ -42,16 +42,17 @@ const SignIn = () => {
 
   return (
     <CustomSafeAreaView className="bg-primary h-full">
-      <ScrollView >
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View className="w-full min-h-[85vh] justify-center px-4 my-6">
           <Image source={images.logo} resizeMode="contain" className="w-[115px] h-[35px]"/>
-          <Text className="text-2xl text-white font-semibold mt-7">Sign in</Text>
+          <CText className="text-2xl font-semibold mt-7">Sign in</CText>
           <FormField
             title="Email"
             value={form.email}
             handleChangeText={(e) => setForm({...form, email: e})}
             otherStyles="mt-7"
             keyboardType="email-address"
+            autoCapitalize='none'
           />
           <FormField
             title="Password"
@@ -61,7 +62,7 @@ const SignIn = () => {
           />
           <CustomButton title="Sign in" handlePress={submit} containerStyles="mt-7" isLoading={isSubmitting}/>
           <View className="flex-row justify-center gap-1 mt-5">
-            <Text className="font-pregular text-sm text-white">Don't have an account?</Text>
+            <CText className="font-pregular text-sm">Don't have an account?</CText>
             <Link className="text-secondary-100 text-sm font-psemibold" href="/sign-up">Sign Up</Link>
           </View>
         </View>

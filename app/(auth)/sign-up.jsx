@@ -5,7 +5,7 @@ import { Link } from 'expo-router'
 import {createUser} from '../../lib/appwrite'
 import { router } from 'expo-router'
 import {useGlobalContext} from "../../context/GlobalProvider";
-import {CustomSafeAreaView, CustomButton, FormField} from '../../components'
+import {CustomSafeAreaView, CustomButton, FormField, CText} from '../../components'
 
 
 const SignUp = () => {
@@ -43,10 +43,10 @@ const SignUp = () => {
 
   return (
     <CustomSafeAreaView className="bg-primary h-full">
-      <ScrollView >
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View className="w-full min-h-[85vh] justify-center px-4 my-6">
           <Image source={images.logo} resizeMode="contain" className="w-[115px] h-[35px]"/>
-          <Text className="text-2xl text-white font-semibold mt-7">Sign up</Text>
+          <CText className="text-2xl font-semibold mt-7">Sign up</CText>
           <FormField
             title="Username"
             value={form.username}
@@ -68,7 +68,7 @@ const SignUp = () => {
           />
           <CustomButton title="Sign Up" handlePress={submit} containerStyles="mt-7" isLoading={isSubmitting}/>
           <View className="flex-row justify-center gap-1 mt-5">
-            <Text className="font-pregular text-sm text-white">Have an account already?</Text>
+            <CText className="font-pregular text-sm">Have an account already?</CText>
             <Link className="text-secondary-100 text-sm font-psemibold" href="/sign-in">Sign In</Link>
           </View>
         </View>

@@ -5,6 +5,8 @@ import '../global.css';
 import {cssInterop} from "nativewind";
 import {Video} from 'expo-av'
 import {GestureHandlerRootView} from "react-native-gesture-handler";
+import {MotiView} from "moti";
+import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
 
 //Prevent auto hide of splash screen
 SplashScreen.preventAutoHideAsync();
@@ -12,6 +14,8 @@ SplashScreen.preventAutoHideAsync();
 //Needed for styling external and native components
 cssInterop(SafeAreaView, { className: "style" });
 cssInterop(Video, { className: "style" });
+cssInterop(MotiView, { className: "style" });
+
 
 /*
 const RootLayout = () => {
@@ -42,13 +46,15 @@ const RootLayout = () => {
     return (
         //Handles gestures for i.e. Gorhom's Bottom Sheet
         <GestureHandlerRootView className={'flex bg-primary'}>
-            {/*Handles safe area properties*/}
-            <SafeAreaProvider>
-                {/*Handles global states like isLoggedIn or isLoading*/}
-                <GlobalProvider>
-                    <AppStack/>
-                </GlobalProvider>
-            </SafeAreaProvider>
+            <BottomSheetModalProvider>
+                {/*Handles safe area properties*/}
+                <SafeAreaProvider>
+                    {/*Handles global states like isLoggedIn or isLoading*/}
+                    <GlobalProvider>
+                        <AppStack/>
+                    </GlobalProvider>
+                </SafeAreaProvider>
+            </BottomSheetModalProvider>
         </GestureHandlerRootView>
     );
 };

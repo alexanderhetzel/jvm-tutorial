@@ -2,6 +2,8 @@ import { View, Image } from 'react-native'
 import React from 'react'
 import { Tabs } from 'expo-router'
 import {icons} from '../../constants'
+import {useGlobalContext} from "../../context/GlobalProvider";
+import {neutraldark, neutrallight} from "../../constants/colors";
 
 const TabIcon = ({icon, color, name, focused}) => {
   return(
@@ -12,17 +14,20 @@ const TabIcon = ({icon, color, name, focused}) => {
 }
 
 const TabsLayout = () => {
+
+    const { colorScheme } = useGlobalContext()
+
   return (
     <>
     <Tabs
       screenOptions= {{
         tabBarActiveTintColor: '#FFA001',
-        tabBarInactiveTintColor: '#CDCDE0',
+        tabBarInactiveTintColor: colorScheme ==="light" ? neutraldark["900"] : neutrallight["900"],
         tabBarStyle: {
-          backgroundColor: '#161622',
+          backgroundColor: colorScheme ==="light" ? neutrallight["300"] : neutraldark["300"],
           borderTopWidth: 1,
-          borderTopColor: '#232533',
-          height: 84,
+          borderTopColor: colorScheme ==="light" ? neutrallight["500"] : neutraldark["500"],
+          height: 84
         }
       }}
     >

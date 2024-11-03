@@ -5,6 +5,9 @@ import Trending from "./Trending";
 import SearchInput from "./SearchInput";
 import EmptyState from "./EmptyState";
 import CustomSafeAreaView from "./CustomSafeAreaView";
+import CView from "./CView";
+import CText from "./CText";
+import CStatusBar from "./CStatusBar";
 
 export {
     VideoCard,
@@ -13,5 +16,8 @@ export {
     Trending,
     SearchInput,
     EmptyState,
-    CustomSafeAreaView
+    CustomSafeAreaView,
+    CView,
+    CText,
+    CStatusBar
 };

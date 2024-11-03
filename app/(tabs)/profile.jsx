@@ -6,7 +6,7 @@ import useAppwrite from "../../lib/useAppwrite";
 import {getUsersPosts, signOut} from "../../lib/appwrite";
 import {useGlobalContext} from "../../context/GlobalProvider";
 import {icons} from "../../constants";
-import {CustomSafeAreaView, VideoCard, EmptyState} from '../../components'
+import {CustomSafeAreaView, VideoCard, EmptyState, CStatusBar, CText} from '../../components'
 
 
 const Profile = () => {
@@ -27,10 +27,11 @@ const Profile = () => {
 
     return (
         <CustomSafeAreaView className="bg-primary h-full">
-            <TouchableOpacity className={"px-3 mr-3 py-3 self-end"} onPress={() => logOut()}>
+            <TouchableOpacity className={" rounded-xl pl-4 pr-3 mr-3 py-3 self-end"} onPress={() => logOut()}>
                 <Image className={"w-6 h-6"} source={icons.logout} resizeMode={"contain"}/>
             </TouchableOpacity>
             <FlatList
+                showsVerticalScrollIndicator={false}
                 keyExtractor={(item) => item.$id}
                 data={posts}
                 ItemSeparatorComponent={() => <View className={"h-14"}/>}
@@ -49,15 +50,15 @@ const Profile = () => {
                         <View className={"w-[56px] h-[56px] rounded-lg border border-secondary p-0.5"}>
                             <Image source={{uri: user?.avatar}} className={"w-full h-full rounded-md"} resizeMode={"cover"}/>
                         </View>
-                        <Text className="text-lg font-psemibold text-white mb-3">{user?.username}</Text>
-                        <View className={"flex-row space-x-8"}>
+                        <CText className="text-lg font-psemibold mb-3">{user?.username}</CText>
+                        <View className={"flex-row gap-5"}>
                             <View className={"items-center justify-center"}>
-                                <Text className="text-[20px] font-psemibold text-white">{posts.length}</Text>
-                                <Text className="text-[14px] font-pregular text-white">Posts</Text>
+                                <CText className="text-[20px] font-psemibold">{posts.length}</CText>
+                                <CText className="text-[14px] font-pregular">Posts</CText>
                             </View>
                             <View className={"items-center justify-center"}>
-                                <Text className="text-[20px] font-psemibold text-white">{posts.length}.0k</Text>
-                                <Text className="text-[14px] font-pregular text-white">Posts</Text>
+                                <CText className="text-[20px] font-psemibold">{posts.length}.0k</CText>
+                                <CText className="text-[14px] font-pregular">Likes</CText>
                             </View>
                         </View>
                     </View>
@@ -66,7 +67,7 @@ const Profile = () => {
                     <EmptyState title={"No videos found"} subtitle={"No videos found for this search query"}/>
                 )}
             />
-            <StatusBar backgroundColor='#161622' style='light'/>
+            <CStatusBar/>
         </CustomSafeAreaView>
     )
 }
