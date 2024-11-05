@@ -1,13 +1,17 @@
 import React, {useEffect} from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, useColorScheme} from 'react-native';
 import {icons} from "../constants";
 import Animated, {interpolateColor, useAnimatedStyle, useSharedValue, withRepeat, withTiming} from "react-native-reanimated";
-import {placeholdergray, secondary} from "../constants/colors";
+import {neutraldark, neutrallight, placeholdergray, secondary} from "../constants/colors";
+import CText from "./CText";
+import {useGlobalContext} from "../context/GlobalProvider";
 
 const FeedFooter = () => {
 
     //State value for color progress
     const colorProgress = useSharedValue(0);
+
+    const { colorScheme } = useGlobalContext();
 
     //Changing color-progress state continuously
     useEffect(() => {
@@ -24,7 +28,7 @@ const FeedFooter = () => {
             backgroundColor: interpolateColor(
                 colorProgress.value,
                 [0, 1],
-                [placeholdergray, secondary["300"]]
+                [colorScheme === "light" ? neutrallight["700"] : neutraldark["700"], secondary["300"]]
             ),
         };
     });
@@ -41,8 +45,8 @@ const FeedFooter = () => {
                 {/* Rechte Linie mit animierter Farbe */}
                 <Animated.View className={"flex-1 h-0.5"} style={animatedStyle} />
             </View>
-            <Text className={"text-white font-psemibold text-lg"}>Oh, done already?</Text>
-            <Text className={"text-gray-100 font-pregular"}>You watched all current videos on your feed.</Text>
+            <CText className={"font-psemibold text-lg"}>Oh, done already?</CText>
+            <Text className={"text-neutraldark-800/75 dark:text-neutrallight-800/75 font-pregular"}>You watched all current videos on your feed.</Text>
         </View>
     );
 };

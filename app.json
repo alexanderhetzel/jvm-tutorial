@@ -13,15 +13,15 @@
       "backgroundColor": "#161622"
     },
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.aora"
+      "supportsTablet": false,
+      "bundleIdentifier": "com.hetzelcloud.aora"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.aora"
+      "package": "com.hetzelcloud.aora"
     },
     "web": {
       "bundler": "metro",

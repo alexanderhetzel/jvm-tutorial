@@ -1,17 +1,29 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { ResizeMode, Video } from "expo-av";
 import {View, Text, TouchableOpacity, Image, useColorScheme} from "react-native";
 import { icons } from "../constants";
 import {Skeleton} from "moti/skeleton";
 import {MotiView} from "moti";
 import CText from "./CText";
-const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
+import Heart from "../assets/icons-svg/heart.svg"
+import {neutraldark, secondary} from "../constants/colors";
+import {dislikePost, likePost} from "../lib/appwrite";
+import {useGlobalContext} from "../context/GlobalProvider";
+
+const VideoCard = ({ docId, title, creator, avatar, thumbnail, video, likes, userId }) => {
 
     //State for managing play-state
     const [play, setPlay]= useState(false);
-    const [thumbnailLoaded, setThumbnailLoaded] = useState(false)
+    const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
+    const [isLiked, setIsLiked] = useState(false);
 
-    const colorScheme = useColorScheme();
+    useEffect(() => {
+        setIsLiked(likes.some(like => like.$id === userId));
+    }, [likes]);
+
+
+    console.log(docId)
+    const { colorScheme } = useGlobalContext();
 
     return (
         <View className="flex flex-col items-center px-4">
@@ -56,8 +68,24 @@ const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
                 </View>
 
                 {thumbnailLoaded &&
-                <View className="pt-2">
-                    <Image source={icons.menu} className="w-5 h-5" resizeMode="contain" />
+                <View className="pt-2 flex-row">
+                    <TouchableOpacity className={"p-1.5"} onPress={async () => {
+                        if(!isLiked) {
+                            await likePost(docId, userId)
+                            console.log("liked")
+                        }
+                        else {
+                            await dislikePost(docId, userId)
+                            console.log("disliked")
+                        }
+                        setIsLiked(!isLiked)
+
+                    }}>
+                        <Heart stroke={isLiked ? secondary["200"] : "#CDCDE0"} fill={isLiked ? secondary.DEFAULT : "none"} stroke-width={"4"} width={20} height={20}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity className={"p-1.5"}>
+                        <Image tintColor={"#CDCDE0"} source={icons.menu} className="w-5 h-5" resizeMode="contain" />
+                    </TouchableOpacity>
                 </View>
                 }
             </View>

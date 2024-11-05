@@ -57,11 +57,14 @@ const Home = () => {
                 ItemSeparatorComponent={() => <View className={"h-14"}/>}
                 renderItem={({item}) => (
                     <VideoCard
+                        docId={item.$id}
                         title={item.title}
                         thumbnail={item.thumbnail}
                         video={item.video}
                         creator={item.creator.username}
                         avatar={item.creator.avatar}
+                        likes={item.likes}
+                        userId={user?.$id}
                     />
                 )}
                 ListFooterComponent={() => (

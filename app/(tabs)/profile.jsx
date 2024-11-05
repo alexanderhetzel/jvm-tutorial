@@ -1,5 +1,5 @@
-import {View, Text, FlatList, TouchableOpacity, Image} from 'react-native'
-import React from 'react'
+import {View, Text, FlatList, TouchableOpacity, Image, RefreshControl} from 'react-native'
+import React, {useState} from 'react'
 import {router} from "expo-router";
 import {StatusBar} from "expo-status-bar";
 import useAppwrite from "../../lib/useAppwrite";
@@ -7,6 +7,7 @@ import {getUsersPosts, signOut} from "../../lib/appwrite";
 import {useGlobalContext} from "../../context/GlobalProvider";
 import {icons} from "../../constants";
 import {CustomSafeAreaView, VideoCard, EmptyState, CStatusBar, CText} from '../../components'
+import {neutraldark, neutrallight} from "../../constants/colors";
 
 
 const Profile = () => {
@@ -14,8 +15,20 @@ const Profile = () => {
     //Global States
     const {user, setUser, setIsLoggedIn} = useGlobalContext();
 
+    //State for managing refreshing
+    const [refreshing, setRefreshing] = useState(false);
+
     //Data for user's posts
-    const {data: posts} = useAppwrite(() => getUsersPosts(user.$id));
+    const {data: posts, refetch} = useAppwrite(() => getUsersPosts(user.$id));
+
+    const { colorScheme } = useGlobalContext();
+
+    //Called when refresh is triggered
+    const onRefresh = async () => {
+        setRefreshing(true);
+        await refetch();
+        setRefreshing(false);
+    }
 
     //Function for deleting session and logging user out
     const logOut = async () => {
@@ -37,11 +50,14 @@ const Profile = () => {
                 ItemSeparatorComponent={() => <View className={"h-14"}/>}
                 renderItem={({item}) => (
                     <VideoCard
+                        docId={item.$id}
                         title={item.title}
                         thumbnail={item.thumbnail}
                         video={item.video}
                         creator={item.creator.username}
                         avatar={item.creator.avatar}
+                        likes={item.likes}
+                        userId={user?.$id}
                     />
                 )}
                 ListHeaderComponent={() => (
@@ -65,7 +81,8 @@ const Profile = () => {
                 )}
                 ListEmptyComponent={() => (
                     <EmptyState title={"No videos found"} subtitle={"No videos found for this search query"}/>
-                )}
+                )} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colorScheme === 'light' ? neutraldark : neutrallight} size={'large'} />}
+
             />
             <CStatusBar/>
         </CustomSafeAreaView>
