@@ -48,7 +48,7 @@ const GlobalProvider = ({ children }) => {
                 }
 
             } catch (error) {
-                console.log('Error fetching user:', error);
+                throw('Error fetching user:', error);
             } finally {
                 // Überprüfe, ob Schriftarten geladen wurden
                 if (fontsLoaded) {

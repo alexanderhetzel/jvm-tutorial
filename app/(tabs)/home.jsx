@@ -19,17 +19,17 @@ import FeedFooter from "../../components/FeedFooter";
 import {SplashScreen} from "expo-router";
 import {colorScheme} from "nativewind";
 import {neutraldark, neutrallight} from "../../constants/colors";
+import {FlashList} from "@shopify/flash-list";
 
 const Home = () => {
 
     //Global States
     const { user, isLoggedIn, isLoading, colorScheme } = useGlobalContext();
 
-    //State for managing refreshing
     const [refreshing, setRefreshing] = useState(false);
 
     //Data for feed posts
-    const {data: posts, refetch} = useAppwrite(getAllPosts);
+    const { data: posts, refetch, fetchMore, hasMore } = useAppwrite(getAllPosts);
 
     //Data for trending posts
     const {data: latestposts} = useAppwrite(getLatestPosts);
@@ -54,7 +54,7 @@ const Home = () => {
                 showsVerticalScrollIndicator={false}
                 keyExtractor={(item) => item.$id}
                 data={posts}
-                ItemSeparatorComponent={() => <View className={"h-14"}/>}
+                //ItemSeparatorComponent={() => <View className={"h-8"}/>}
                 renderItem={({item}) => (
                     <VideoCard
                         docId={item.$id}
@@ -67,10 +67,12 @@ const Home = () => {
                         userId={user?.$id}
                     />
                 )}
+                /*
                 ListFooterComponent={() => (
                     <FeedFooter/>
                 )}
-                ListHeaderComponent={() => (
+                 */
+                /*ListHeaderComponent={() => (
                     <View className="my-6 space-y-6">
                         <View className="px-4 justify-between items-start flex-row mb-6">
                             <View>
@@ -88,10 +90,17 @@ const Home = () => {
                         </View>
                     </View>
                 )}
-                ListEmptyComponent={() => (
+                 */
+                /*ListEmptyComponent={() => (
                     <EmptyState title={"No videos found"} subtitle={"Be the first one to upload a video!"}/>
                 )}
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colorScheme === 'light' ? neutraldark : neutrallight} size={'large'} />}
+                 */
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colorScheme === "light" ? neutraldark : neutrallight} size={'large'} />}
+                onEndReached={() => {
+                    if (hasMore) fetchMore(); // Laden weiterer Posts beim Erreichen des Endes
+                }}
+                onEndReachedThreshold={0.5}
+                //onEndReachedThreshold={1.5} // Schwellenwert: Bei 50 % vor dem Ende wird `fetchMore` aufgerufen
             />
             <CStatusBar/>
         </CustomSafeAreaView>

@@ -69,7 +69,6 @@ const Trending = ({ posts }) => {
 
     //Function for setting active item
     const viewableItemsChanged = ({viewableItems}) => {
-        console.log(viewableItems + "\n");
         if(viewableItems.length > 0) {
             setActiveItem(viewableItems[0].key)
         }

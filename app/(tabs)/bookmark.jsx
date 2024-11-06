@@ -1,6 +1,6 @@
-import {View, Text, ScrollView, useColorScheme} from 'react-native'
+import {View, Text, ScrollView, useColorScheme, FlatList} from 'react-native'
 import React, {useMemo, useRef, useCallback} from 'react'
-import {CText, CustomButton, CustomSafeAreaView} from "../../components";
+import {CText, CustomButton, CustomSafeAreaView, CView} from "../../components";
 import BottomSheet, {BottomSheetBackdrop, BottomSheetModal, BottomSheetView} from "@gorhom/bottom-sheet";
 import {black, gray, neutraldark, neutrallight, placeholdergray} from "../../constants/colors";
 
@@ -27,9 +27,11 @@ const Bookmark = () => {
         []
     );
 
+    const data = Array.from({ length: 100 }, (_, index) => index + 1);
+
     return (
-        <CustomSafeAreaView className={"h-full bg-primary"}>
-            <ScrollView className={"py-6 px-4"}>
+        <CView className={"flex-1 bg-primary"}>
+            {/*<ScrollView className={"py-6 px-4"}>
                 <CustomButton title={"Open BottomsheetModal"} handlePress={handleOpenPress}/>
                 <CText>Bookmark</CText>
             </ScrollView>
@@ -43,8 +45,19 @@ const Bookmark = () => {
                 <BottomSheetView className={"flex flex-col"}>
                     <CustomButton title={"Save to bookmarks"} containerStyles={"mx-3 mt-4 mb-6"} onClick={handleOpenPress}/>
                 </BottomSheetView>
-            </BottomSheetModal>
-        </CustomSafeAreaView>
+            </BottomSheetModal>*/}
+            <FlatList contentContainerStyle={{flexGrow: 1}}
+
+                data={data}
+                renderItem={({item}) => (
+                <CText className={"text-5xl h-20"}>{item}</CText>
+                )}
+                onEndReachedThreshold={1}
+                onEndReached={() => console.log("reached")}
+
+
+            />
+        </CView>
     )
 }
 

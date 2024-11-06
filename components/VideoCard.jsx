@@ -22,7 +22,6 @@ const VideoCard = ({ docId, title, creator, avatar, thumbnail, video, likes, use
     }, [likes]);
 
 
-    console.log(docId)
     const { colorScheme } = useGlobalContext();
 
     return (
@@ -109,7 +108,7 @@ const VideoCard = ({ docId, title, creator, avatar, thumbnail, video, likes, use
             {play ? (
                 <Video
                     source={{uri: video}}
-                    className={"w-full h-60 mt-6 rounded-xl bg-white/10"}
+                    className={"w-full h-60 mt-3 rounded-xl bg-white/10"}
                     resizeMode={ResizeMode.CONTAIN}
                     useNativeControls
                     shouldPlay
@@ -129,7 +128,7 @@ const VideoCard = ({ docId, title, creator, avatar, thumbnail, video, likes, use
                         source={{ uri: thumbnail }}
                         className="w-full h-full rounded-xl bg-black-200"
                         resizeMode="cover"
-                        onLoadEnd={() => {console.log("loaded"); setThumbnailLoaded(true)}}
+                        onLoadEnd={() => setThumbnailLoaded(true)}
                     />
 
                     {!thumbnailLoaded && (
