@@ -1,8 +1,9 @@
-import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity } from 'react-native'
 import React, {useState} from 'react'
 import {icons, images} from '../constants'
 import {useGlobalContext} from "../context/GlobalProvider";
 import {neutraldark, neutrallight} from "../constants/colors";
+import {Image} from "expo-image";
 
 const FormField = ({title, value, placeholder, handleChangeText, otherStyles, keyboardType, autoCapitalize, ...props}) => {
 

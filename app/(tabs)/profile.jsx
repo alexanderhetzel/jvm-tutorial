@@ -1,4 +1,4 @@
-import {View, Text, FlatList, TouchableOpacity, Image, RefreshControl} from 'react-native'
+import {View, Text, FlatList, TouchableOpacity, RefreshControl} from 'react-native'
 import React, {useState} from 'react'
 import {router} from "expo-router";
 import {StatusBar} from "expo-status-bar";
@@ -8,6 +8,7 @@ import {useGlobalContext} from "../../context/GlobalProvider";
 import {icons} from "../../constants";
 import {CustomSafeAreaView, VideoCard, EmptyState, CStatusBar, CText} from '../../components'
 import {neutraldark, neutrallight} from "../../constants/colors";
+import {Image} from "expo-image";
 
 
 const Profile = () => {
@@ -41,7 +42,7 @@ const Profile = () => {
     return (
         <CustomSafeAreaView className="bg-primary h-full">
             <TouchableOpacity className={" rounded-xl pl-4 pr-3 mr-3 py-3 self-end"} onPress={() => logOut()}>
-                <Image className={"w-6 h-6"} source={icons.logout} resizeMode={"contain"}/>
+                <Image className={"w-6 h-6"} source={icons.logout} contentFit={"contain"}/>
             </TouchableOpacity>
             <FlatList
                 showsVerticalScrollIndicator={false}
@@ -64,7 +65,7 @@ const Profile = () => {
 
                     <View className="my-6 space-y-2 px-4 items-center justify-center">
                         <View className={"w-[56px] h-[56px] rounded-lg border border-secondary p-0.5"}>
-                            <Image source={{uri: user?.avatar}} className={"w-full h-full rounded-md"} resizeMode={"cover"}/>
+                            <Image source={{uri: user?.avatar}} className={"w-full h-full rounded-md"} contentFit={"cover"}/>
                         </View>
                         <CText className="text-lg font-psemibold mb-3">{user?.username}</CText>
                         <View className={"flex-row gap-5"}>

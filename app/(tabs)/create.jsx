@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity, Image, ScrollView, Alert} from 'react-native'
+import {View, Text, TouchableOpacity, ScrollView, Alert} from 'react-native'
 import React, {useState} from 'react'
 import {CText, CustomButton, CustomSafeAreaView, FormField} from "../../components"
 import {Video, ResizeMode} from "expo-av";
@@ -7,6 +7,7 @@ import * as DocumentPicker from "expo-document-picker";
 import {router} from "expo-router";
 import {createVideo} from "../../lib/appwrite";
 import {useGlobalContext} from "../../context/GlobalProvider";
+import {Image} from "expo-image";
 
 const Create = () => {
 
@@ -98,7 +99,7 @@ const Create = () => {
                                     className={ "w-14 h-14 border border-dashed border-secondary-100 justify-center items-center rounded-xl" }>
                                     <Image
                                         source={ icons.upload }
-                                        resizeMode={ "contain" }
+                                        contentFit={ "contain" }
                                         className={ "w-1/2 h-1/2" }/>
                                 </View>
                             </View>
@@ -112,14 +113,14 @@ const Create = () => {
                             <Image
                                 className={ "w-full h-64 rounded-2xl" }
                                 source={ {uri: form.thumbnail.uri} }
-                                resizeMode="cover"
+                                contentFit="cover"
                             />
                         ) : (
                             <View
                                 className={ "bg-neutrallight-400 dark:bg-neutraldark-300 border-neutrallight-600 dark:border-neutraldark-600 border w-full h-20 px-4 justify-center items-center rounded-2xl flex-row gap-x-2" }>
                                 <Image
                                     source={ icons.upload }
-                                    resizeMode={ "contain" }
+                                    contentFit={ "contain" }
                                     className={ "w-5 h-5" }/>
                                 <Text className={ "text-neutraldark-900 dark:text-neutrallight-900 text-sm font-pmedium" }>Choose a file</Text>
                             </View>

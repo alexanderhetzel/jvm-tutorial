@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, Alert } from 'react-native'
+import { View, Text, ScrollView, Alert } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {images} from '../../constants'
@@ -6,6 +6,7 @@ import {Link, router, SplashScreen} from 'expo-router'
 import {getCurrentUser, signIn} from '../../lib/appwrite'
 import {useGlobalContext} from "../../context/GlobalProvider";
 import {CustomSafeAreaView, CustomButton, FormField, CText} from '../../components'
+import {Image} from "expo-image";
 
 const SignIn = () => {
 
@@ -44,7 +45,7 @@ const SignIn = () => {
     <CustomSafeAreaView className="bg-primary h-full">
       <ScrollView showsVerticalScrollIndicator={false}>
         <View className="w-full min-h-[85vh] justify-center px-4 my-6">
-          <Image source={images.logo} resizeMode="contain" className="w-[115px] h-[35px]"/>
+          <Image source={images.logo} contentFit="contain" className="w-[115px] h-[35px]"/>
           <CText className="text-2xl font-semibold mt-7">Sign in</CText>
           <FormField
             title="Email"

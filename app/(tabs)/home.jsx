@@ -1,10 +1,8 @@
-import {View, Text, FlatList, Image, RefreshControl} from 'react-native'
+import {ActivityIndicator, FlatList, RefreshControl, View, Text} from 'react-native'
 import React, {useState, useEffect} from 'react'
 import {getAllPosts, getLatestPosts} from '../../lib/appwrite'
-import { StatusBar } from 'expo-status-bar'
 import { useGlobalContext } from '../../context/GlobalProvider'
 import useAppwrite from "../../lib/useAppwrite";
-import {images} from "../../constants";
 import {
     CustomSafeAreaView,
     VideoCard,
@@ -19,6 +17,11 @@ import FeedFooter from "../../components/FeedFooter";
 import {SplashScreen} from "expo-router";
 import {colorScheme} from "nativewind";
 import {neutraldark, neutrallight} from "../../constants/colors";
+import {MotiView} from "moti";
+import {Skeleton} from "moti/skeleton";
+import SkeletonPost from "../../components/SkeletonPost";
+import {Image} from "expo-image";
+import {images} from "../../constants";
 import {FlashList} from "@shopify/flash-list";
 
 const Home = () => {
@@ -28,11 +31,11 @@ const Home = () => {
 
     const [refreshing, setRefreshing] = useState(false);
 
+    //Data for trending posts
+    //const {data: latestposts} = useAppwrite(getLatestPosts);
+
     //Data for feed posts
     const { data: posts, refetch, fetchMore, hasMore } = useAppwrite(getAllPosts);
-
-    //Data for trending posts
-    const {data: latestposts} = useAppwrite(getLatestPosts);
 
     //Called when refresh is triggered
     const onRefresh = async () => {
@@ -48,13 +51,14 @@ const Home = () => {
         }
     }, [isLoading]);
 
+
     return (
         <CustomSafeAreaView className={"h-full"}>
             <FlatList
                 showsVerticalScrollIndicator={false}
                 keyExtractor={(item) => item.$id}
                 data={posts}
-                //ItemSeparatorComponent={() => <View className={"h-8"}/>}
+                ItemSeparatorComponent={() => <View className={"h-8"}/>}
                 renderItem={({item}) => (
                     <VideoCard
                         docId={item.$id}
@@ -65,41 +69,46 @@ const Home = () => {
                         avatar={item.creator.avatar}
                         likes={item.likes}
                         userId={user?.$id}
+
                     />
                 )}
-                /*
+
                 ListFooterComponent={() => (
-                    <FeedFooter/>
+                    hasMore ? (
+                        <View className={"my-10"}>
+                            <ActivityIndicator size={"large"} className={"scale-75"}/>
+                        </View>
+                    ) : (<FeedFooter/>)
                 )}
-                 */
-                /*ListHeaderComponent={() => (
+
+                ListHeaderComponent={() => (
                     <View className="my-6 space-y-6">
                         <View className="px-4 justify-between items-start flex-row mb-6">
                             <View>
                                 <CText className="font-pmedium text-sm">Welcome Back</CText>
                                 <CText className="text-2xl font-psemibold">{user?.username}</CText>
                             </View>
-                            <View className="mt-1.5">
-                                <Image source={images.logoSmall} className="w-9 h-10" resizeMode={"contain"}/>
-                            </View>
                         </View>
                         <SearchInput otherStyles={"px-4"}/>
-                        <View className="w-full flex-1 pt-5 pb-8">
-                            <Text className="text-neutraldark-900 dark:text-neutrallight-900 px-4 text-lg font-pregular mb-3">Latest videos</Text>
-                            <Trending posts={latestposts}/>
-                        </View>
                     </View>
                 )}
-                 */
-                /*ListEmptyComponent={() => (
-                    <EmptyState title={"No videos found"} subtitle={"Be the first one to upload a video!"}/>
+
+
+
+                ListEmptyComponent={() => (
+                    //<EmptyState title={"No videos found"} subtitle={"Be the first one to upload a video!"}/>
+                    <View className={"gap-10 px-4"}>
+                        <SkeletonPost/>
+                        <SkeletonPost/>
+                        <SkeletonPost/>
+                    </View>
                 )}
-                 */
+
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colorScheme === "light" ? neutraldark : neutrallight} size={'large'} />}
                 onEndReached={() => {
                     if (hasMore) fetchMore(); // Laden weiterer Posts beim Erreichen des Endes
                 }}
-                onEndReachedThreshold={0.5}
+                onEndReachedThreshold={1}
                 //onEndReachedThreshold={1.5} // Schwellenwert: Bei 50 % vor dem Ende wird `fetchMore` aufgerufen
             />
             <CStatusBar/>

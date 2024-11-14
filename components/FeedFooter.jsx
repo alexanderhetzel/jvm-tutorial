@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react';
-import {View, Text, Image, useColorScheme} from 'react-native';
+import {View, Text, useColorScheme} from 'react-native';
 import {icons} from "../constants";
 import Animated, {interpolateColor, useAnimatedStyle, useSharedValue, withRepeat, withTiming} from "react-native-reanimated";
 import {neutraldark, neutrallight, placeholdergray, secondary} from "../constants/colors";
 import CText from "./CText";
 import {useGlobalContext} from "../context/GlobalProvider";
+import {Image} from "expo-image";
 
 const FeedFooter = () => {
 

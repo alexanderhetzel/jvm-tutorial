@@ -7,6 +7,7 @@ import {Video} from 'expo-av'
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {MotiView} from "moti";
 import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
+import {Image} from "expo-image";
 
 //Prevent auto hide of splash screen
 SplashScreen.preventAutoHideAsync();
@@ -15,6 +16,8 @@ SplashScreen.preventAutoHideAsync();
 cssInterop(SafeAreaView, { className: "style" });
 cssInterop(Video, { className: "style" });
 cssInterop(MotiView, { className: "style" });
+cssInterop(Image, { className: "style" });
+
 
 
 /*

@@ -1,14 +1,15 @@
-import { View, Image } from 'react-native'
+import { View } from 'react-native'
 import React from 'react'
 import { Tabs } from 'expo-router'
 import {icons} from '../../constants'
 import {useGlobalContext} from "../../context/GlobalProvider";
 import {neutraldark, neutrallight} from "../../constants/colors";
+import {Image} from "expo-image";
 
 const TabIcon = ({icon, color, name, focused}) => {
   return(
     <View>
-      <Image source={icon} resizeMode="contain" tintColor={color} className="w-5 h-5" class/>
+      <Image source={icon} contentFit="contain" tintColor={color} className="w-5 h-5" class/>
     </View>
   )
 }
